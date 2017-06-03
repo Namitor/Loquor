@@ -31,17 +31,22 @@ function loquorInit() {
 }
 
 function appendInput($container) {
-  $input = jQuery('<input/>', {
-    class: 'loquor-input'
+  $textErea = jQuery('<textarea/>', {
+    class: 'loquor-texterea',
+    form: 'loquor_comment_form',
+    name: 'content',
+    wrap: 'soft'
   });
-  $submit = jQuery('<button/>', {
-    text: 'Send',
-    click: function () {
-      console.log($input.val());
-    }
+  $form = jQuery('<form/>', {
+    id: 'loquor_comment_form',
+    method: 'post'
   });
-  $input.appendTo($container);
-  $submit.appendTo($container);
+  $submit = jQuery('<input/>', {
+    type: 'submit'
+  });
+  $submit.appendTo($form);
+  $textErea.appendTo($container);
+  $form.appendTo($container);
 }
 
 function appendList($container) {
