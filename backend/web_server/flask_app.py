@@ -29,7 +29,11 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(PROJECT_PATH, 'loquor.db')
 SQLALCHEMY_MIGRATE_REPO = os.path.join(PROJECT_PATH, 'datas')
 
 db = SQLAlchemy(app)
-db.create_all()
+
+
+@app.before_first_request
+def init_server():
+    db.create_all()
 
 
 class Comment(db.Model):
