@@ -12,6 +12,7 @@ import sys
 from flask import Flask
 from flask import make_response
 from flask import request
+from flask.ext.cors import CORS
 from flask.ext.sqlalchemy import SQLAlchemy
 
 abs_path = os.path.dirname(os.path.abspath(__file__))
@@ -29,6 +30,8 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(PROJECT_PATH, 'loquor.db')
 SQLALCHEMY_MIGRATE_REPO = os.path.join(PROJECT_PATH, 'datas')
 
 db = SQLAlchemy(app)
+
+CORS(app)
 
 
 @app.before_first_request
