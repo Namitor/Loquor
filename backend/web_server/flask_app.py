@@ -81,6 +81,7 @@ def create_comment():
 
     """
     try:
+        print 'receive post from %s, req data= %s' % (request.remote_addr, request.data)
         req_data_obj = json.loads(request.data)
         loquor_id = req_data_obj['loquor_id']
         comment_id = req_data_obj.get('comment_id', None)
