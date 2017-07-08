@@ -60,7 +60,7 @@ function appendInput($container, loquorId, pageId) {
         content: $textErea.val()
       }),
       success: function (data) {
-        console.log(data);
+        addCommentToList(data.result, true);
       }
     });
   });
@@ -72,20 +72,36 @@ function appendInput($container, loquorId, pageId) {
 
 function appendList($container, loquorId, pageId) {
   $.getJSON(LOQUOR_ROOT+'?loquor_id='+loquorId+'&page_id='+pageId, function (json) {
-    var $list = $('<ul/>');
-    $.each(json.result, function(key, val) {
-      var $comment = $('<div/>');
-      $('<div/>', {
-        text: val.user_name
-      }).appendTo($comment);
-      $('<div/>', {
-        text: val.content
-      }).appendTo($comment);
-      $('<div/>', {
-        text: val.post_time
-      }).appendTo($comment);
-      $comment.appendTo($list);
+    var $list = $('<div/>', {
+      id: 'comment_list'
     });
     $list.appendTo($container);
+    $.each(json.result, function(key, val) {
+      addCommentToList(val);
+    });
   });
+}
+
+function addCommentToList(data, ifInsert) {
+  var $commentList = $('#comment_list');
+  var $comment = $('<div/>', {
+    class: 'loquor_comment_item'
+  });
+  $('<div/>', {
+    class: 'loquor_comment_item_meta'
+  }).append($('<span/>', {
+    class: 'loquor_comment_item_user',
+    text: data.user_name
+  })).append($('<span/>', {
+    class: 'loquor_comment_item_time',
+    text: data.post_time
+  })).appendTo($comment);
+  $('<div/>', {
+    class: 'loquor_comment_item_content',
+    text: data.content
+  }).appendTo($comment);
+  $('<div/>', {
+    class: 'loquor_comment_break_line'
+  }).appendTo($comment);
+  ifInsert ? $comment.prependTo($commentList) : $comment.appendTo($commentList);
 }
