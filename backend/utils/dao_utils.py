@@ -33,13 +33,15 @@ class Comment(db.Model):
     user_name = db.Column(db.String(20))
     content = db.Column(db.Text)
     post_time = db.Column(db.DateTime)
+    extra_info = db.Column(db.String(40))
 
-    def __init__(self, loquor_id, comment_id, page_id, user_name, content, post_time=None):
+    def __init__(self, loquor_id, comment_id, page_id, user_name, content, post_time=None, extra_info=None):
         self.loquor_id = loquor_id
         self.comment_id = comment_id
         self.page_id = page_id
         self.user_name = user_name
         self.content = content
+        self.extra_info = extra_info if extra_info else 'None'
         if post_time:
             self.post_time = post_time
         else:
@@ -47,7 +49,7 @@ class Comment(db.Model):
 
     def __repr__(self):
         jsonobj = {'loquor_id': self.loquor_id, 'comment_id': self.comment_id, 'page_id': self.page_id,
-                   'user_name': self.user_name, 'content': self.content,
+                   'user_name': self.user_name, 'content': self.content, 'extra_info': self.extra_info,
                    'post_time': self.post_time.strftime('%Y-%m-%d %H:%M:%S')}
         return json.dumps(jsonobj)
         # return 'loquor_id=%s\tcomment_id=%s\tpage_id=%s\tuser_name=%s\tcontent=%s\tpost_time=%s' % (
