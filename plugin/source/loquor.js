@@ -21,10 +21,10 @@ window.onload = function () {
 };
 
 function loquorInit() {
-    $('<link rel="stylesheet" type="text/css" href="https://rawgit.com/Namitor/Loquor/dev/plugin/source/loquor.css" >')
-        .appendTo("head");
-    // $('<link rel="stylesheet" type="text/css" href="http://7qnaj2.com1.z0.glb.clouddn.com/loquor.css" >')
+    // $('<link rel="stylesheet" type="text/css" href="https://rawgit.com/Namitor/Loquor/dev/plugin/source/loquor.css" >')
     //     .appendTo("head");
+    $('<link rel="stylesheet" type="text/css" href="http://jayveestorage.qiniudn.com/public/cssloquor.css" >')
+        .appendTo("head");
     // $('<link rel="stylesheet" type="text/css" href="../source/loquor.css" >')
     //     .appendTo("head");
     var $userContainer = $('#loquor_container');
