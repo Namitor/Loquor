@@ -83,7 +83,8 @@ function appendInput($container, loquorId, pageId, pageTitle, pageUrl) {
             return
         }
         var comment_content = $textErea.val();
-        console.log('user:' + username + '\temail:' + email + '\tcontent:' + comment_content);
+        console.log('user:' + username + 'page_title: ' + pageTitle
+            + '\turl: ' + pageUrl + '\temail: ' + email + '\tcontent:' + comment_content);
         $.ajax({
             type: 'post',
             url: LOQUOR_ROOT,
