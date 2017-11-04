@@ -4,104 +4,143 @@
 const LOQUOR_ROOT = 'http://www.namitor.com/loquor/comment';
 
 window.onload = function () {
-  if(!window.jQuery){
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'https://code.jquery.com/jquery-3.2.1.min.js';
-    script.onload = function () {
-      loquorInit();
-    };
-    document.getElementsByTagName('head')[0].appendChild(script);
-  }else {
-    loquorInit();
-  }
+    if (!window.jQuery) {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://code.jquery.com/jquery-3.2.1.min.js';
+        // var bootstrap_script = document.createElement('script');
+        // bootstrap_script.type = 'text/javascript';
+        // bootstrap_script.src = 'https://code.jquery.com/jquery-3.2.1.min.js';
+        script.onload = function () {
+            loquorInit();
+        };
+        document.getElementsByTagName('head')[0].appendChild(script);
+    } else {
+        loquorInit();
+    }
 };
 
 function loquorInit() {
-  $('<link rel="stylesheet" type="text/css" href="https://rawgit.com/Namitor/Loquor/dev/plugin/source/loquor.css" >')
-    .appendTo("head");
-  var $userContainer = $('#loquor_container');
-  var $container = $('<div/>', {
-    class: 'loquor-container'
-  });
-  $container.appendTo($userContainer);
-  var loquorId = $userContainer.data('loquor-id');
-  var pageId = $userContainer.data('loquor-page-id');
+    // $('<link rel="stylesheet" type="text/css" href="https://rawgit.com/Namitor/Loquor/dev/plugin/source/loquor.css" >')
+    //     .appendTo("head");
+    $('<link rel="stylesheet" type="text/css" href="../source/loquor.css" >')
+        .appendTo("head");
+    var $userContainer = $('#loquor_container');
+    var $container = $('<div/>', {
+        class: 'loquor-container'
+    });
+    $container.appendTo($userContainer);
+    var loquorId = $userContainer.data('loquor-id');
+    var pageId = $userContainer.data('loquor-page-id');
+    var pageTitle = $userContainer.data('loquor-pagetitle');
+    appendInput($container, loquorId, pageId, pageTitle);
+    appendList($container, loquorId, pageId);
 
-  appendInput($container, loquorId, pageId);
-  appendList($container, loquorId, pageId);
-
-  //For test
-  console.log('Loquor Name: ' + loquorId);
-  console.log('Page ID: ' + pageId);
+    //For test
+    console.log('Loquor Name: ' + loquorId);
+    console.log('Page ID: ' + pageId);
 }
 
-function appendInput($container, loquorId, pageId) {
-  $commentEditArea = $('<div/>', {
-    class: 'loquor-edit-area'
-  });
-  $textErea = $('<textarea/>', {
-    class: 'loquor-texterea',
-    wrap: 'soft',
-    rows: 1
-  });
-  $submitBtn = $('<button/>', {
-    class: 'loquor-submit-btn'
-  });
-  $submitBtn.click(function () {
-    $.ajax({
-      type: 'post',
-      url: LOQUOR_ROOT,
-      contentType: 'json',
-      data: JSON.stringify({
-        loquor_id: loquorId,
-        page_id: pageId,
-        user_name: 'anonym',
-        content: $textErea.val()
-      }),
-      success: function (data) {
-        addCommentToList(data.result, true);
-      }
+function appendInput($container, loquorId, pageId, pageTitle) {
+    $commentEditArea = $('<div/>', {
+        class: 'loquor-edit-area'
     });
-  });
-  $submitBtn.append('评论');
-  $textErea.appendTo($commentEditArea);
-  $submitBtn.appendTo($commentEditArea);
-  $commentEditArea.appendTo($container);
+    $textErea = $('<textarea/>', {
+        class: 'loquor-texterea',
+        wrap: 'soft',
+        rows: 1
+    });
+    $submitBtn = $('<button/>', {
+        class: 'loquor-submit-btn'
+    });
+    $userinfoArea = $('<div/>', {});
+    $emailArea = $('<input/>', {
+        id: 'emailText',
+        type: 'text',
+        style: "width: 20%",
+        // class: 'loquor-userinfo'
+    });
+    $usernameArea = $("<input>",
+        {
+            id: 'usernameText',
+            type: 'text',
+            // class: 'loquor-userinfo',
+            style: 'width:30%'
+        });
+    $submitBtn.click(function () {
+        var email = $("#emailText").val();
+        var username = $("#usernameText").val();
+        if (email == '') {
+            alert('请输入email！');
+            return
+        }
+        if (username == '') {
+            alert('请输入用户名');
+            return
+        }
+        var comment_content = $textErea.val();
+        console.log('user:' + username + '\temail:' + email + '\tcontent:' + comment_content);
+        $.ajax({
+            type: 'post',
+            url: LOQUOR_ROOT,
+            contentType: 'json',
+            data: JSON.stringify({
+                loquor_id: loquorId,
+                page_id: pageId,
+                user_name: username,
+                extra_info: 'page_title: ' + pageTitle + '\temail: ' + email,
+                content: comment_content
+            }),
+            success: function (data) {
+                addCommentToList(data.result, true);
+            }
+        });
+    });
+    $submitBtn.append('评论');
+    $("<a/>", {text: "Email: ", style: 'padding:5px'}).appendTo($userinfoArea);
+    $emailArea.appendTo($userinfoArea);
+    $("<a/>", {text: "用户名: ", style: 'padding:5px'}).appendTo($userinfoArea);
+    $usernameArea.appendTo($userinfoArea);
+    $userinfoArea.appendTo($commentEditArea);
+
+    $("<a/>", {text: "评论内容: ", style: 'padding:5px'}).appendTo($commentEditArea);
+    $textErea.appendTo($commentEditArea);
+    $submitBtn.appendTo($commentEditArea);
+    $commentEditArea.appendTo($container);
 }
 
 function appendList($container, loquorId, pageId) {
-  $.getJSON(LOQUOR_ROOT+'?loquor_id='+loquorId+'&page_id='+pageId, function (json) {
-    var $list = $('<div/>', {
-      id: 'comment_list'
+    $.getJSON(LOQUOR_ROOT + '?loquor_id=' + loquorId + '&page_id=' + pageId, function (json) {
+        var $list = $('<div/>', {
+            id: 'comment_list'
+        });
+        $list.appendTo($container);
+        $.each(json.result, function (key, val) {
+            addCommentToList(val);
+        });
     });
-    $list.appendTo($container);
-    $.each(json.result, function(key, val) {
-      addCommentToList(val);
-    });
-  });
 }
 
 function addCommentToList(data, ifInsert) {
-  var $commentList = $('#comment_list');
-  var $comment = $('<div/>', {
-    class: 'loquor_comment_item'
-  });
-  $('<div/>', {
-    class: 'loquor_comment_item_meta'
-  }).append($('<span/>', {
-    class: 'loquor_comment_item_user',
-    text: data.user_name
-  })).append($('<span/>', {
-    class: 'loquor_comment_item_time',
-    text: data.post_time
-  })).appendTo($comment);
-  $('<div/>', {
-    class: 'loquor_comment_item_content',
-    text: data.content
-  }).appendTo($comment);
-  $('<div/>', {
-    class: 'loquor_comment_break_line'
-  }).appendTo($comment);
-  ifInsert ? $comment.prependTo($commentList) : $comment.appendTo($commentList);
+    var $commentList = $('#comment_list');
+    var $comment = $('<div/>', {
+        class: 'loquor_comment_item'
+    });
+    $('<div/>', {
+        class: 'loquor_comment_item_meta'
+    }).append($('<span/>', {
+        class: 'loquor_comment_item_user',
+        text: data.user_name
+    })).append($('<span/>', {
+        class: 'loquor_comment_item_time',
+        text: data.post_time
+    })).appendTo($comment);
+    $('<div/>', {
+        class: 'loquor_comment_item_content',
+        text: data.content
+    }).appendTo($comment);
+    $('<div/>', {
+        class: 'loquor_comment_break_line'
+    }).appendTo($comment);
+    ifInsert ? $comment.prependTo($commentList) : $comment.appendTo($commentList);
 }
