@@ -23,7 +23,7 @@ window.onload = function () {
 function loquorInit() {
     // $('<link rel="stylesheet" type="text/css" href="https://rawgit.com/Namitor/Loquor/dev/plugin/source/loquor.css" >')
     //     .appendTo("head");
-     $('<link rel="stylesheet" type="text/css" href="http://7qnaj2.com1.z0.glb.clouddn.com/loquor.css" >')
+    $('<link rel="stylesheet" type="text/css" href="http://7qnaj2.com1.z0.glb.clouddn.com/loquor.css" >')
         .appendTo("head");
     // $('<link rel="stylesheet" type="text/css" href="../source/loquor.css" >')
     //     .appendTo("head");
@@ -35,7 +35,9 @@ function loquorInit() {
     var loquorId = $userContainer.data('loquor-id');
     var pageId = $userContainer.data('loquor-page-id');
     var pageTitle = $userContainer.data('loquor-pagetitle');
-    appendInput($container, loquorId, pageId, pageTitle);
+    var pageUrl = $userContainer.data('loquor-pageurl');
+
+    appendInput($container, loquorId, pageId, pageTitle, pageUrl);
     appendList($container, loquorId, pageId);
 
     //For test
@@ -43,7 +45,7 @@ function loquorInit() {
     console.log('Page ID: ' + pageId);
 }
 
-function appendInput($container, loquorId, pageId, pageTitle) {
+function appendInput($container, loquorId, pageId, pageTitle, pageUrl) {
     $commentEditArea = $('<div/>', {
         class: 'loquor-edit-area'
     });
@@ -90,7 +92,7 @@ function appendInput($container, loquorId, pageId, pageTitle) {
                 loquor_id: loquorId,
                 page_id: pageId,
                 user_name: username,
-                extra_info: 'page_title: ' + pageTitle + '\temail: ' + email,
+                extra_info: 'page_title: ' + pageTitle + '\turl: ' + pageUrl + '\temail: ' + email,
                 content: comment_content
             }),
             success: function (data) {
