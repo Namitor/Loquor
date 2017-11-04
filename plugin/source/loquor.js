@@ -57,7 +57,7 @@ function appendInput($container, loquorId, pageId, pageTitle, pageUrl) {
     $submitBtn = $('<button/>', {
         class: 'loquor-submit-btn'
     });
-    $userinfoArea = $('<div/>', {});
+    $userinfoArea = $('<div/>', {class: 'container', id: 'userinfo', style: 'padding:14px'});
     $emailArea = $('<input/>', {
         id: 'emailText',
         type: 'text',
@@ -106,7 +106,7 @@ function appendInput($container, loquorId, pageId, pageTitle, pageUrl) {
     $emailArea.appendTo($userinfoArea);
     $("<a/>", {text: "用户名: ", style: 'padding:5px'}).appendTo($userinfoArea);
     $usernameArea.appendTo($userinfoArea);
-    $userinfoArea.appendTo($commentEditArea);
+    $userinfoArea.appendTo($container);
 
     $("<a/>", {text: "评论内容: ", style: 'padding:5px'}).appendTo($commentEditArea);
     $textErea.appendTo($commentEditArea);
