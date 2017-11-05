@@ -91,6 +91,7 @@ function appendInput($container, loquorId, pageId, pageTitle, pageUrl) {
         var comment_content = $textErea.val();
         if (comment_content == '') {
             alert("请输入评论内容");
+            return
         }
         console.log('user:' + username + 'page_title: ' + pageTitle
             + '\turl: ' + pageUrl + '\temail: ' + email + '\tcontent:' + comment_content);
