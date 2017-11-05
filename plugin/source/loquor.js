@@ -81,10 +81,17 @@ function appendInput($container, loquorId, pageId, pageTitle, pageUrl) {
             email = 'anonymous@null.com'
         }
         if (username == '') {
-            alert('将以匿名发送');
-            username = 'Anonymous';
+            var r = confirm('将以匿名发送');
+            if (r == true) {
+                username = 'Anonymous';
+            } else {
+                return
+            }
         }
         var comment_content = $textErea.val();
+        if (comment_content == '') {
+            alert("请输入评论内容");
+        }
         console.log('user:' + username + 'page_title: ' + pageTitle
             + '\turl: ' + pageUrl + '\temail: ' + email + '\tcontent:' + comment_content);
         $.ajax({
