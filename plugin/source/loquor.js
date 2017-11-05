@@ -62,6 +62,7 @@ function appendInput($container, loquorId, pageId, pageTitle, pageUrl) {
         id: 'emailText',
         type: 'text',
         style: "width: 20%",
+        placeholder: '请输入E-mail便于联系（选填）'
         // class: 'loquor-userinfo'
     });
     $usernameArea = $("<input>",
@@ -69,18 +70,19 @@ function appendInput($container, loquorId, pageId, pageTitle, pageUrl) {
             id: 'usernameText',
             type: 'text',
             // class: 'loquor-userinfo',
-            style: 'width:30%'
+            style: 'width:30%',
+            placeholder: '用户名（选填，不填则匿名）'
+
         });
     $submitBtn.click(function () {
         var email = $("#emailText").val();
         var username = $("#usernameText").val();
         if (email == '') {
-            alert('请输入email！');
-            return
+            email = 'anonymous@null.com'
         }
         if (username == '') {
-            alert('请输入用户名');
-            return
+            alert('将以匿名发送');
+            username = 'Anonymous';
         }
         var comment_content = $textErea.val();
         console.log('user:' + username + 'page_title: ' + pageTitle
