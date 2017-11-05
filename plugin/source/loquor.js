@@ -121,6 +121,7 @@ function appendInput($container, loquorId, pageId, pageTitle, pageUrl) {
     $("<a/>", {text: "评论内容: ", style: 'padding:5px'}).appendTo($commentEditArea);
     $textErea.appendTo($commentEditArea);
     $submitBtn.appendTo($commentEditArea);
+    $("<span style='font-size: x-small'>Powered by <a href='https://github.com/Namitor/Loquor'>Loquor</a></span> ").appendTo($commentEditArea);
     $commentEditArea.appendTo($container);
 }
 
