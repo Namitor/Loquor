@@ -6,7 +6,7 @@ Loquor（落客）是一个款轻量级的博客评论组件
 在需要添加评论的地方添加
 
 ```html
-<script src="http://jayveestorage.qiniudn.com/loquor/js/loquor.js"></script>
+<script src="http://jayveestorage.qiniudn.com/dev/js/loquor.js"></script>
 <div id="loquor_container"
     data-loquor-id="1"
     data-loquor-page-id="1"
