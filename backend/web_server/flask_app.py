@@ -12,7 +12,8 @@ import sys
 from flask import Flask
 from flask import make_response
 from flask import request
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
 
 abs_path = os.path.dirname(os.path.abspath(__file__))
 abs_father_path = os.path.dirname(abs_path)
@@ -30,6 +31,8 @@ SQLALCHEMY_MIGRATE_REPO = os.path.join(PROJECT_PATH, 'datas')
 
 db = SQLAlchemy(app)
 
+CORS(app)
+
 
 @app.before_first_request
 def init_server():
@@ -43,17 +46,18 @@ class Comment(db.Model):
     user_name = db.Column(db.String(20))
     content = db.Column(db.Text)
     post_time = db.Column(db.DateTime)
+    extra_info = db.Column(db.String(40))
 
-    def __init__(self, loquor_id, page_id, user_name, content, comment_id=None, post_time=None):
+    def __init__(self, loquor_id, page_id, user_name, content, comment_id=None, post_time=None, extra_info=None):
         self.loquor_id = loquor_id
         if comment_id:
-
             self.comment_id = comment_id
         else:
             self.comment_id = len(Comment.query.all())
         self.page_id = page_id
         self.user_name = user_name
         self.content = content
+        self.extra_info = extra_info if extra_info else 'None'
         if post_time:
             self.post_time = post_time
         else:
@@ -61,7 +65,7 @@ class Comment(db.Model):
 
     def __repr__(self):
         jsonobj = {'loquor_id': self.loquor_id, 'comment_id': self.comment_id, 'page_id': self.page_id,
-                   'user_name': self.user_name, 'content': self.content,
+                   'user_name': self.user_name, 'content': self.content, 'extra_info': self.extra_info,
                    'post_time': self.post_time.strftime('%Y-%m-%d %H:%M:%S')}
         return json.dumps(jsonobj)
         # return 'loquor_id=%s\tcomment_id=%s\tpage_id=%s\tuser_name=%s\tcontent=%s\tpost_time=%s' % (
@@ -78,13 +82,15 @@ def create_comment():
 
     """
     try:
+        print 'receive post from %s, req data= %s' % (request.remote_addr, request.data)
         req_data_obj = json.loads(request.data)
         loquor_id = req_data_obj['loquor_id']
         comment_id = req_data_obj.get('comment_id', None)
+        extra_info = req_data_obj.get('extra_info', None)
         page_id = req_data_obj['page_id']
         user_name = req_data_obj['user_name']
         content = req_data_obj['content']
-        tmp_comment = Comment(loquor_id, page_id, user_name, content, comment_id)
+        tmp_comment = Comment(loquor_id, page_id, user_name, content, comment_id, extra_info=extra_info)
         db.session.add(tmp_comment)
         db.session.commit()
         # post_time = db.Column(db.DateTime)
