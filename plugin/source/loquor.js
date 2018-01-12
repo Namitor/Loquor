@@ -4,6 +4,10 @@
 const LOQUOR_ROOT = 'http://api.jayveehe.com/loquor/comment';
 
 window.onload = function () {
+    callLoquor();
+};
+
+function callLoquor() {
     if (!window.jQuery) {
         var script = document.createElement('script');
         script.type = 'text/javascript';
@@ -18,7 +22,7 @@ window.onload = function () {
     } else {
         loquorInit();
     }
-};
+}
 
 function loquorInit() {
     // $('<link rel="stylesheet" type="text/css" href="https://rawgit.com/Namitor/Loquor/dev/plugin/source/loquor.css" >')
