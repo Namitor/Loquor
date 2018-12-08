@@ -72,6 +72,12 @@ class Comment(db.Model):
         #     self.loquor_id, self.comment_id, self.page_id, self.user_name, self.content, self.post_time)
 
 
+@app.route('/', methods=['GET'])
+def hellow_home():
+    resp = make_response(json.dumps({'msg': 'hello Loquor!'}, ensure_ascii=False), 200)
+    return resp
+
+
 @app.route('/loquor/comment', methods=['POST'])
 def create_comment():
     """
