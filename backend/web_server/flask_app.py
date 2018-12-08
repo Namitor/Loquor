@@ -12,8 +12,8 @@ import sys
 from flask import Flask
 from flask import make_response
 from flask import request
-from flask.ext.cors import CORS
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
 
 abs_path = os.path.dirname(os.path.abspath(__file__))
 abs_father_path = os.path.dirname(abs_path)
