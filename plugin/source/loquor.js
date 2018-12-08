@@ -1,7 +1,7 @@
 /**
  * Created by zwang on 6/2/17.
  */
-const LOQUOR_ROOT = 'http://www.namitor.com/loquor/comment';
+const LOQUOR_ROOT = 'http://api.jayveehe.com/loquor/comment';
 
 window.onload = function () {
     callLoquor();
