@@ -73,10 +73,23 @@ class Comment(db.Model):
 
 
 @app.route('/loquor', methods=['GET'])
-def hellow_home():
+def hello_home():
     resp = make_response(json.dumps({'msg': 'hello Loquor!'}, ensure_ascii=False), 200)
     return resp
 
+@app.route('/loquor/staticfiles/css', methods=['GET'])
+def static_css():
+    file_data = open('../../plugin/source/loquor.css').read()
+    resp = make_response(file_data, 200)
+    resp.mimetype = 'text/css'
+    return resp
+
+@app.route('/loquor/staticfiles/js', methods=['GET'])
+def static_js():
+    file_data = open('../../plugin/source/loquor.js').read()
+    resp = make_response(file_data, 200)
+    resp.mimetype = 'text/javascript'
+    return resp
 
 @app.route('/loquor/comment', methods=['POST'])
 def create_comment():
