@@ -27,7 +27,7 @@ function callLoquor() {
 function loquorInit() {
     // $('<link rel="stylesheet" type="text/css" href="https://rawgit.com/Namitor/Loquor/dev/plugin/source/loquor.css" >')
     //     .appendTo("head");
-    $('<link rel="stylesheet" type="text/css" href="http://jayveestorage.qiniudn.com/public/css/loquor.css" >')
+    $('<link rel="stylesheet" type="text/css" href="http://api.jayveehe.com/loquor/staticfiles/css" >')
         .appendTo("head");
     // $('<link rel="stylesheet" type="text/css" href="../source/loquor.css" >')
     //     .appendTo("head");
